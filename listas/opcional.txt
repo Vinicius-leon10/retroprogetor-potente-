@@ -1,0 +1,6 @@
+# Pacotes OPCIONAIS: desative apenas se voce NAO usa espelhar a tela do celular no projetor.
+# Eles enviam dados para servidores na China, mas sao os responsaveis pelo espelhamento.
+
+com.android.toofifi
+com.toofifi.lineserver
+com.htc.samescreen

@@ -1,0 +1,19 @@
+# Pacotes que serao DESATIVADOS no projetor (malware, telemetria e lixo de fabrica).
+# Tudo aqui pode ser desfeito com a opcao "Desfazer" do script.
+# Fontes: github.com/well0nez/magcubic-root e github.com/micha102/hy300pro-debloat
+# Formato: um pacote por linha. Linhas com # sao ignoradas.
+
+# --- Malware / proxy escondido (usa sua internet para terceiros) ---
+com.hotack.silentsdk
+com.hotack.writesn
+com.htc.expandsdk
+
+# --- Telemetria, loja e atualizador de origem duvidosa ---
+com.htc.eventuploadservice
+com.htc.storeos
+com.htc.htcotaupdate
+
+# --- Lixo de fabrica ---
+com.htc.hyk_test
+com.huawei.connection
+android.rockchip.update.service

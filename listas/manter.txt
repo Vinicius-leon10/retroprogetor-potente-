@@ -1,0 +1,8 @@
+# NAO DESATIVE estes pacotes. Eles controlam o hardware do projetor.
+# (Este arquivo e so referencia; o script nunca mexe neles.)
+
+com.hysd.vafocus            # motor do foco automatico
+com.softwinner.awlivetv     # entrada HDMI
+com.htc.magcubicos          # tela inicial original (tem ajuste de keystone/imagem)
+com.htc.luminaos            # tela inicial original (alguns modelos)
+com.htc.htclauncherhighenglishd08  # tela inicial original - so remover depois de ter outro launcher funcionando
