@@ -1,5 +1,7 @@
 # Retroprojetor potente: otimizando o Magcubic HY320
 
+> 📌 **Tem o HY320 Mini com chip Amlogic?** Leia primeiro o **[Guia do HY320 Mini com chip Amlogic](guia-publico/README.md)**. Este README foi escrito para a versão com chip **Allwinner H713**, e as listas, o root e o firmware daqui **não servem** para a versão Amlogic. Para descobrir qual é o seu, rode `adb shell getprop ro.board.platform`: `txhd2` é Amlogic.
+
 Projeto para deixar o Android do projetor **Magcubic HY320** (chip Allwinner H713) mais leve, rápido e seguro, **sem perder** Wi-Fi, foco automático, keystone, HDMI e controle remoto.
 
 > ⚠️ **Importante:** pesquisadores encontraram **malware** de fábrica nesses projetores (ex.: `com.hotack.silentsdk`, que transforma o aparelho em "proxy" e usa sua internet para terceiros). Desativar esses pacotes é o primeiro passo, e também deixa o aparelho mais leve.
