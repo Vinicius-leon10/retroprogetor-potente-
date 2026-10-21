@@ -1,8 +1,12 @@
 # NAO DESATIVE estes pacotes. Eles controlam o hardware do projetor.
 # (Este arquivo e so referencia; o script nunca mexe neles.)
+# Hardware real: Amlogic T950S (txhd2), Android 13.
 
-com.hysd.vafocus            # motor do foco automatico
-com.softwinner.awlivetv     # entrada HDMI
-com.htc.magcubicos          # tela inicial original (tem ajuste de keystone/imagem)
-com.htc.luminaos            # tela inicial original (alguns modelos)
-com.htc.htclauncherhighenglishd08  # tela inicial original - so remover depois de ter outro launcher funcionando
+com.softwinner.tcorrection  # keystone / correcao de imagem
+com.spocky.projengmenu      # Projectivy, a tela inicial em uso
+com.google.android.leanbacklauncher  # tela inicial reserva do Google TV
+com.htc.htcsettings         # configuracoes do projetor
+com.jm.jmlauncher           # app de sistema da fabrica (funcao nao confirmada)
+com.fb                      # JMFactory, app de fabrica (funcao nao confirmada)
+com.abc.ninja               # NetflixNinja, ajuda o Netflix
+com.droidlogic.*            # hardware Amlogic (imagem, som, HDMI, Wi-Fi)

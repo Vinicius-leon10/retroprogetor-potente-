@@ -1,0 +1,254 @@
+<title>Guia HY320 Mini Amlogic</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: coluna única de leitura, como um manual de serviço; fichas técnicas em tabela, comandos em blocos de terminal. */
+:root {
+  --bg: #f5f6f8;
+  --surface: #ffffff;
+  --fg: #1b2230;
+  --muted: #5b6577;
+  --line: #d9dde5;
+  --accent: #c2700f;
+  --accent-soft: #fbefdf;
+  --ok: #1f7a4d;
+  --ok-soft: #e3f3ea;
+  --warn: #a8461d;
+  --warn-soft: #fbe8df;
+  --code-bg: #1d2431;
+  --code-fg: #e6e9ef;
+  --font-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #12161e; --surface: #1a202b; --fg: #e5e8ee; --muted: #9aa3b4; --line: #2c3442;
+    --accent: #f0a443; --accent-soft: #33281a; --ok: #5cc493; --ok-soft: #17301f;
+    --warn: #f08a5d; --warn-soft: #3a2219; --code-bg: #0b0e14; --code-fg: #e6e9ef;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #12161e; --surface: #1a202b; --fg: #e5e8ee; --muted: #9aa3b4; --line: #2c3442;
+  --accent: #f0a443; --accent-soft: #33281a; --ok: #5cc493; --ok-soft: #17301f;
+  --warn: #f08a5d; --warn-soft: #3a2219; --code-bg: #0b0e14; --code-fg: #e6e9ef;
+  color-scheme: dark;
+}
+body {
+  background: var(--bg); color: var(--fg);
+  font-family: var(--font-body); font-size: 17px; line-height: 1.6;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 40px 64px;
+}
+main { max-width: 760px; margin: 0 auto; display: grid; gap: 48px; }
+h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; line-height: 1.2; margin: 0; }
+h1 { font-size: clamp(2rem, 5vw, 2.8rem); font-weight: 800; letter-spacing: -0.01em; }
+h2 { font-size: 1.5rem; font-weight: 700; padding-bottom: 8px; border-bottom: 2px solid var(--accent); }
+h3 { font-size: 1.1rem; font-weight: 700; }
+p, li { max-width: 65ch; }
+p { margin: 0; }
+section { display: grid; gap: 16px; min-width: 0; }
+ul, ol { margin: 0; padding-left: 1.3em; display: grid; gap: 6px; }
+a { color: var(--accent); text-underline-offset: 3px; }
+a:focus-visible, button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+.eyebrow { font-family: var(--font-mono); font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.lede { font-size: 1.15rem; color: var(--muted); }
+header { display: grid; gap: 14px; }
+code { font-family: var(--font-mono); font-size: 0.88em; background: var(--accent-soft); padding: 1px 5px; border-radius: 4px; overflow-wrap: anywhere; }
+.term { position: relative; background: var(--code-bg); color: var(--code-fg); border-radius: 8px; min-width: 0; }
+.term pre { margin: 0; padding: 16px 18px; overflow-x: auto; font-family: var(--font-mono); font-size: 0.85rem; line-height: 1.55; }
+.term pre .c { color: #8b95a7; }
+.term button {
+  position: absolute; top: 8px; right: 8px; font: 600 0.75rem var(--font-mono);
+  background: #2f3848; color: var(--code-fg); border: 1px solid #435066; border-radius: 6px;
+  padding: 4px 10px; cursor: pointer;
+}
+.term button:hover { background: #3a4558; }
+.spec { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+.spec th, .spec td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+.spec th { font-family: var(--font-mono); font-weight: 600; font-size: 0.78rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); }
+.spec td:first-child { font-family: var(--font-mono); font-size: 0.85rem; overflow-wrap: anywhere; }
+.table-wrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; }
+.note { padding: 14px 16px; border-radius: 8px; border-left: 4px solid; display: grid; gap: 6px; }
+.note.warn { background: var(--warn-soft); border-color: var(--warn); }
+.note.ok { background: var(--ok-soft); border-color: var(--ok); }
+.note strong { font-family: var(--font-display); }
+.pill { display: inline-block; font: 600 0.75rem var(--font-mono); padding: 2px 8px; border-radius: 999px; white-space: nowrap; }
+.pill.yes { background: var(--ok-soft); color: var(--ok); }
+.pill.no { background: var(--warn-soft); color: var(--warn); }
+.pill.half { background: var(--accent-soft); color: var(--accent); }
+.toc { display: flex; flex-wrap: wrap; gap: 8px 16px; font-size: 0.95rem; }
+footer { color: var(--muted); font-size: 0.9rem; display: grid; gap: 8px; border-top: 1px solid var(--line); padding-top: 20px; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<main>
+  <header>
+    <span class="eyebrow">Projetor · Android 13 · ADB sem root</span>
+    <h1>Guia do HY320 Mini com chip Amlogic</h1>
+    <p class="lede">O que funcionou, o que não funcionou e o que evitar ao deixar mais leve e mais seguro um projetor Magcubic HY320 Mini da versão com chip Amlogic. Tudo foi testado num aparelho real, com comandos ADB que podem ser desfeitos.</p>
+    <nav class="toc" aria-label="Seções">
+      <a href="#hardware">Identificar o chip</a>
+      <a href="#seguranca">Segurança</a>
+      <a href="#limpeza">Limpeza</a>
+      <a href="#launcher">Tela inicial</a>
+      <a href="#apps">Apps</a>
+      <a href="#netflix">Netflix</a>
+      <a href="#firmware">Firmware</a>
+      <a href="#desfazer">Desfazer</a>
+    </nav>
+  </header>
+
+  <section id="hardware">
+    <h2>1. Confira qual chip o seu tem</h2>
+    <p>A maioria dos guias da internet é para o HY300/HY320 com chip <strong>Allwinner H713</strong> e Android 11. A unidade testada aqui, vendida como HY320 Mini, tem outro hardware. Antes de seguir qualquer guia, confira o seu:</p>
+    <div class="term"><button type="button" data-copy>Copiar</button><pre>adb shell getprop ro.board.platform   <span class="c"># txhd2 = Amlogic</span>
+adb shell getprop ro.soc.model        <span class="c"># t950s_be311</span>
+adb shell getprop ro.product.cpu.abi  <span class="c"># armeabi-v7a (32 bits)</span>
+adb shell wm size                     <span class="c"># 1280x720</span></pre></div>
+    <div class="table-wrap">
+      <table class="spec">
+        <thead><tr><th>Item</th><th>Unidade testada</th></tr></thead>
+        <tbody>
+          <tr><td>Chip</td><td>Amlogic T950S (placa <code>txhd2</code>, modelo <code>t950s_be311</code>)</td></tr>
+          <tr><td>Sistema</td><td>Android 13 (TV), patch de segurança de abril de 2023</td></tr>
+          <tr><td>Processador</td><td>4 núcleos ARMv7, <strong>apenas 32 bits</strong> (armeabi-v7a)</td></tr>
+          <tr><td>Memória</td><td>~1 GB de RAM, ~4,5 GB para apps</td></tr>
+          <tr><td>Tela real</td><td><strong>1280×720 a 30 quadros por segundo</strong></td></tr>
+          <tr><td>Bootloader</td><td>Já vem destravado de fábrica</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note warn"><strong>Se aparecer txhd2 / T950S</strong><p>Não use listas, root nem firmware feitos para o H713. Pacotes como <code>com.hotack.silentsdk</code>, <code>com.hysd.vafocus</code> e <code>com.softwinner.awlivetv</code> nem existem nesta versão, e gravar um firmware de H713 pode inutilizar o aparelho.</p></div>
+  </section>
+
+  <section id="seguranca">
+    <h2>2. Problemas de segurança de fábrica</h2>
+    <ul>
+      <li><strong>Acesso total pela rede, sem senha.</strong> O ADB fica na porta 5555 com <code>ro.debuggable=1</code>, <code>ro.adb.secure</code> vazio e <code>/system/xbin/su</code>. Qualquer aparelho no mesmo Wi-Fi, ou qualquer app instalado no projetor, consegue controle total.</li>
+      <li><strong>Tela inicial de fábrica suspeita.</strong> A <code>com.htc.htclauncherhighenglishd08</code> roda como sistema (UID 1000), pode instalar apps sozinha e mantém um processo <code>:filedownloader</code> sempre ativo. Pesquisadores apontam essa tela como maliciosa em outros projetores da mesma família (veja as fontes no fim).</li>
+      <li><strong>Opções do desenvolvedor escondidas.</strong> O truque de tocar 7 vezes em "Build" está bloqueado, mas o ADB continua ligado mesmo assim.</li>
+      <li><strong>A Play Store é original</strong>, apesar de ficar numa pasta chamada <code>Tubesky</code>. O certificado é o do Google.</li>
+    </ul>
+    <div class="note ok"><strong>Como fechar a porta</strong><p>Neste aparelho, a porta 5555 depende da <strong>Depuração USB</strong>, não da "Depuração por Wi-Fi". Desligue em: Configurações → Preferências do dispositivo → Opções do desenvolvedor → Depuração USB. Testado: depois de reiniciar, a porta <strong>continua fechada</strong>.</p></div>
+    <p>Se o menu não aparecer, deixe-o visível (com o ADB ainda ligado):</p>
+    <div class="term"><button type="button" data-copy>Copiar</button><pre>adb shell settings put global development_settings_enabled 1</pre></div>
+  </section>
+
+  <section id="limpeza">
+    <h2>3. Limpeza sem root</h2>
+    <p><code>pm disable-user</code> desativa sem apagar e pode ser desfeito. Alguns apps estranhos vêm em <code>/data/app</code>, e esses dá para desinstalar de vez para liberar espaço. Na unidade testada, o espaço livre passou de <strong>539 MB para 1,3 GB</strong>.</p>
+    <h3>Desativados (componentes de fábrica e de celular)</h3>
+    <div class="term"><button type="button" data-copy>Copiar</button><pre><span class="c"># Desative a tela inicial de fábrica SÓ depois de outra (Projectivy) estar funcionando</span>
+for p in com.htc.htclauncherhighenglishd08 com.droidlogic.updater \
+  com.google.android.tvrecommendations com.android.printspooler com.android.musicfx \
+  com.android.providers.calendar com.android.providers.contacts \
+  com.google.android.syncadapters.calendar com.google.android.syncadapters.contacts \
+  com.android.wallpaperbackup com.android.adservices.api \
+  com.android.ondevicepersonalization.services; do
+  adb shell pm disable-user --user 0 $p
+done</pre></div>
+    <h3>Apps de origem desconhecida que vieram instalados (rodando em segundo plano)</h3>
+    <p>Na unidade testada: <code>com.smart.tv.launcher</code>, <code>com.ht1.launcher</code>, <code>com.overseas.store.appstore</code>, <code>com.master.tv.market</code>, <code>com.master.accessibility</code>, <code>com.jiumao.screen.systemadplayer</code>, <code>com.jiumao.projection</code>, <code>com.seraphic.openinet.jiumao</code> e <code>com.nmvdo.tv</code>. Não achei documentação pública sobre eles. Foram desativados primeiro e, como nada quebrou, desinstalados com <code>adb shell pm uninstall &lt;pacote&gt;</code>.</p>
+    <div class="note warn"><strong>Não mexa nestes</strong><p><code>com.softwinner.tcorrection</code> (keystone e ajustes de projeção), <code>com.htc.htcsettings</code> (configurações do projetor), <code>com.droidlogic.*</code> (imagem, som, HDMI, Wi-Fi, Miracast), <code>com.jm.jmlauncher</code> e <code>com.fb</code> (apps de fábrica com função não confirmada).</p></div>
+    <p>A tela de ajuste de imagem (zoom, trapézio automático, correção de canto) abre direto com:</p>
+    <div class="term"><button type="button" data-copy>Copiar</button><pre>adb shell am start -n com.softwinner.tcorrection/.projection.ProjectionSettingActivity</pre></div>
+  </section>
+
+  <section id="launcher">
+    <h2>4. Projectivy como tela inicial</h2>
+    <p>Instale o <a href="https://github.com/spocky/miproja1/releases" target="_blank" rel="noopener">Projectivy Launcher</a> (APK oficial) e rode:</p>
+    <div class="term"><button type="button" data-copy>Copiar</button><pre>adb shell cmd package set-home-activity com.spocky.projengmenu/.ui.home.MainActivity
+adb shell settings put secure enabled_accessibility_services \
+  com.spocky.projengmenu/com.spocky.projengmenu.services.ProjectivyAccessibilityService
+adb shell settings put secure accessibility_enabled 1</pre></div>
+    <p>Depois, no Projectivy, ligue <strong>Configurações → Geral → Sobrepor o launcher atual</strong>. Com a tela de fábrica ainda ativa, o botão Home do controle já abria o Projectivy (o Home enviado pelo ADB não). Com ela desativada, o Projectivy abre sozinho ao ligar. Desligar <strong>"Habilitar canais"</strong> economiza memória.</p>
+    <p>Dica: o menu do Projectivy abre com a tecla Menu (<code>KEYCODE_MENU</code>). O campo de nome de categoria não aceita confirmação enviada pelo ADB, então crie categorias pelo controle.</p>
+  </section>
+
+  <section id="apps">
+    <h2>5. Apps que funcionaram (32 bits)</h2>
+    <div class="table-wrap">
+      <table class="spec">
+        <thead><tr><th>App</th><th>Resultado</th></tr></thead>
+        <tbody>
+          <tr><td>SmartTube (stable, armeabi-v7a)</td><td><span class="pill yes">funciona</span> Substitui o YouTube oficial, que usava mais de 100% de CPU. Ajuste a qualidade para <strong>720p</strong>, porque a tela é 720p a 30 qps.</td></tr>
+          <tr><td>jqssun/android-airplay-server</td><td><span class="pill yes">funciona</span> Espelhamento de iPhone grátis e sem anúncios. Disputa a porta 7000 com o AirScreen ("Error starting server", erro 98): use só um dos dois.</td></tr>
+          <tr><td>Miracast de fábrica</td><td><span class="pill yes">funciona</span> <code>com.droidlogic.miracast</code>, para espelhar celular Android.</td></tr>
+          <tr><td>Projectivy Launcher</td><td><span class="pill yes">funciona</span> Veja a seção 4.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="netflix">
+    <h2>6. Netflix: o que testei</h2>
+    <p>O aparelho não tem certificação da Netflix (a Play Store diz "não compatível" para o Netflix de TV). Testei só APKs originais, com assinatura da Netflix conferida:</p>
+    <div class="table-wrap">
+      <table class="spec">
+        <thead><tr><th>Versão</th><th>Resultado</th></tr></thead>
+        <tbody>
+          <tr><td>Celular 8.143.5 (veio instalado)</td><td><span class="pill yes">funciona</span> Interface de celular, qualidade padrão (SD).</td></tr>
+          <tr><td>Celular 9.26.0</td><td><span class="pill half">pede atualização</span></td></tr>
+          <tr><td>Celular 9.57.0 e 9.58.0</td><td><span class="pill no">"não compatível"</span> A 9.58 é a última versão de 32 bits.</td></tr>
+          <tr><td>Netflix TV 13.2.1 (com.netflix.ninja)</td><td><span class="pill no">"não compatível"</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note warn"><strong>Antes de desinstalar o Netflix que veio no aparelho</strong><p>Faça backup do APK: <code>adb shell pm path com.netflix.mediaclient</code> e depois <code>adb pull</code>. Ele é assinado com uma chave mais nova da Netflix, e os APKs dos sites espelho não instalam por cima ("signatures do not match"). Se você apagar sem backup, pode ficar sem nenhuma versão que funcione.</p></div>
+    <p>Os "mods" de Netflix para aparelhos sem certificação, que aparecem no GitHub, são antigos e os próprios autores marcam como não funcionando. Além disso, pedem a senha da sua conta. O caminho que funciona para ter Netflix em HD é um stick certificado (Fire TV, Chromecast) ligado no HDMI.</p>
+  </section>
+
+  <section id="firmware">
+    <h2>7. Trocar o sistema</h2>
+    <p>O aparelho aceita sistema genérico (Treble, partições A/B dinâmicas, VNDK 33, bootloader destravado), mas:</p>
+    <ul>
+      <li>Não achei firmware oficial nem modificado para o T950S_BE311; há pedidos sem resposta e relatos de aparelhos inutilizados no XDA.</li>
+      <li>Um sistema genérico de 32 bits quase não existe para TV e provavelmente perderia o keystone e o HDMI, que ficam na partição de sistema.</li>
+      <li>A certificação da Netflix fica em chaves gravadas em cada aparelho na fábrica, não no firmware. Gravar o sistema de um modelo certificado não traria o Netflix.</li>
+    </ul>
+  </section>
+
+  <section id="desfazer">
+    <h2>8. Como desfazer</h2>
+    <div class="term"><button type="button" data-copy>Copiar</button><pre><span class="c"># reativar um pacote desativado</span>
+adb shell pm enable &lt;pacote&gt;
+<span class="c"># recuperar um pacote de sistema removido do usuário</span>
+adb shell cmd package install-existing &lt;pacote&gt;
+<span class="c"># voltar para a tela inicial de fábrica</span>
+adb shell pm enable com.htc.htclauncherhighenglishd08
+adb shell cmd package set-home-activity com.htc.htclauncherhighenglishd08/com.mao.launcher.activity.BarrelActivity</pre></div>
+    <p>Apps de <code>/data/app</code> desinstalados com <code>pm uninstall</code> não voltam com esses comandos. Só desinstale o que você já testou desativado.</p>
+  </section>
+
+  <footer>
+    <p><strong>Fontes e projetos usados:</strong>
+      <a href="https://github.com/Gathin23/cleanyourtv" target="_blank" rel="noopener">CleanYourTV</a> (lista para Stellamore T950S) ·
+      <a href="https://github.com/micha102/hy300pro-debloat" target="_blank" rel="noopener">hy300pro-debloat</a> ·
+      <a href="https://github.com/maximilian-sh/hy350max-badbox-removal" target="_blank" rel="noopener">hy350max-badbox-removal</a> ·
+      <a href="https://github.com/yuliskov/SmartTube" target="_blank" rel="noopener">SmartTube</a> ·
+      <a href="https://github.com/jqssun/android-airplay-server" target="_blank" rel="noopener">android-airplay-server</a>
+    </p>
+    <p>Testado em uma unidade, em outubro de 2026. Outros lotes podem ter pacotes diferentes: confira os seus com <code>adb shell pm list packages</code> antes de copiar listas.</p>
+  </footer>
+</main>
+
+<script>
+document.querySelectorAll('[data-copy]').forEach(function (btn) {
+  btn.addEventListener('click', function () {
+    var pre = btn.parentElement.querySelector('pre');
+    var text = pre.innerText;
+    function done(msg) { btn.textContent = msg; setTimeout(function () { btn.textContent = 'Copiar'; }, 1500); }
+    function selectIt() {
+      var r = document.createRange(); r.selectNodeContents(pre);
+      var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+      done('Selecionado');
+    }
+    try {
+      navigator.clipboard.writeText(text).then(function () { done('Copiado'); }, selectIt);
+    } catch (e) { selectIt(); }
+  });
+});
+</script>

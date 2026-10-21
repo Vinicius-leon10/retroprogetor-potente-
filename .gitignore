@@ -1,0 +1,7 @@
+# Arquivos locais que nao devem ir para o GitHub
+.claude/
+platform-tools/
+relatorios/
+apks/*.apk
+apks/*.bak
+para-github/

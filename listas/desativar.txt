@@ -1,19 +1,42 @@
-# Pacotes que serao DESATIVADOS no projetor (malware, telemetria e lixo de fabrica).
+# Pacotes que serao DESATIVADOS no projetor (apps de fundo, lojas paralelas e lixo de fabrica).
 # Tudo aqui pode ser desfeito com a opcao "Desfazer" do script.
-# Fontes: github.com/well0nez/magcubic-root e github.com/micha102/hy300pro-debloat
+# Lista feita para o hardware REAL do aparelho (relatorio de 2026-10-20):
+# Amlogic T950S (txhd2), Android 13, 1 GB de RAM. Nao e o Allwinner H713.
 # Formato: um pacote por linha. Linhas com # sao ignoradas.
 
-# --- Malware / proxy escondido (usa sua internet para terceiros) ---
-com.hotack.silentsdk
-com.hotack.writesn
-com.htc.expandsdk
+# --- Telas iniciais extras (ficam abertas gastando memoria) ---
+com.smart.tv.launcher
+com.ht1.launcher
 
-# --- Telemetria, loja e atualizador de origem duvidosa ---
-com.htc.eventuploadservice
-com.htc.storeos
-com.htc.htcotaupdate
+# --- Lojas de apps paralelas, de origem desconhecida ---
+com.overseas.store.appstore
+com.master.tv.market
 
-# --- Lixo de fabrica ---
-com.htc.hyk_test
-com.huawei.connection
-android.rockchip.update.service
+# --- Apps de origem desconhecida e atualizador de fabrica ---
+com.master.accessibility
+com.nmvdo.tv
+com.seraphic.openinet.jiumao
+com.droidlogic.updater
+
+# --- Tela inicial de fabrica: apontada como maliciosa (anuncios, roda como sistema e
+#     pode instalar apps). So desativar com o Projectivy ja funcionando como tela inicial.
+#     Fontes: micha102/hy300pro-debloat, maximilian-sh/hy350max-badbox-removal ---
+com.htc.htclauncherhighenglishd08
+
+# --- Componentes de celular inuteis num projetor (lista do CleanYourTV para T950S) ---
+com.android.printspooler
+com.android.musicfx
+com.android.providers.calendar
+com.android.providers.contacts
+com.google.android.syncadapters.calendar
+com.google.android.syncadapters.contacts
+com.android.wallpaperbackup
+com.android.adservices.api
+com.android.ondevicepersonalization.services
+
+# --- Recomendacoes do Google TV (o Projectivy nao precisa delas) ---
+com.google.android.tvrecommendations
+
+# --- Ja vinham desativados de fabrica (mantidos aqui para nao voltarem) ---
+com.jiumao.screen.systemadplayer
+com.mbox.accessibility

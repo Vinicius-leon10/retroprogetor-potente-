@@ -1,6 +1,4 @@
-# Pacotes OPCIONAIS: desative apenas se voce NAO usa espelhar a tela do celular no projetor.
-# Eles enviam dados para servidores na China, mas sao os responsaveis pelo espelhamento.
+# Pacotes OPCIONAIS: desative apenas se voce NAO usa o espelhamento de fabrica.
+# O AirScreen (com.ionitech.airscreen) tambem espelha a tela e nao esta nesta lista.
 
-com.android.toofifi
-com.toofifi.lineserver
-com.htc.samescreen
+com.jiumao.projection
